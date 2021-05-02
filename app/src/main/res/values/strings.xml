@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">Pawpr</string>
+    <string name="profile">Pawfile</string>
+    <string name="button_updateProfile">Update Pawfile</string>
+    <string name="hint_name">Enter your dog\'s name</string>
+    <string name="hint_breed">Tell us your dog\'s breed</string>
+    <string name="hint_bio">Tell us about your dog</string>
+
+    <string name="good_boy">Good Boy</string>
+    <string name="good_girl">Good Girl</string>
+
+    <string name="puppy_label">Are they a puppy?</string>
+    <string name="fixed_label">Have they been \"fixed\"?</string>
+
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
 </resources>
