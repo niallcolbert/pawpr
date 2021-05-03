@@ -8,9 +8,10 @@ import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
 import android.net.Uri
 import com.neddoesdev.pawpr.R
+import com.neddoesdev.pawpr.activities.ui.profile.ProfileFragment
 import java.io.IOException
 
-fun showImagePicker(parent: Activity, id: Int) {
+fun showImagePicker(parent: ProfileFragment, id: Int) {
     val intent = Intent()
     intent.type = "image/*"
     intent.action = Intent.ACTION_OPEN_DOCUMENT
@@ -19,13 +20,13 @@ fun showImagePicker(parent: Activity, id: Int) {
     parent.startActivityForResult(chooser, id)
 }
 
-fun readImage(activity: Activity, resultCode: Int, data: Intent?): Bitmap? {
+fun readImage(activity: ProfileFragment, resultCode: Int, data: Intent?): Bitmap? {
     var bitmap: Bitmap? = null
     if (resultCode == Activity.RESULT_OK && data != null && data.data != null) {
         try {
-            bitmap = ImageDecoder.decodeBitmap(
-                    ImageDecoder.createSource(activity.contentResolver, data.data!!
-                    ))
+//            bitmap = ImageDecoder.decodeBitmap(
+//                    ImageDecoder.createSource(activity.contentResolver, data.data!!
+//                    ))
         } catch (e: IOException) {
             e.printStackTrace()
         }
