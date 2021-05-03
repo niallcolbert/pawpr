@@ -2,9 +2,14 @@
     <string name="app_name">Pawpr</string>
     <string name="profile">Pawfile</string>
     <string name="button_updateProfile">Update Pawfile</string>
+    <string name="button_addImage">Add Image</string>
     <string name="hint_name">Enter your dog\'s name</string>
     <string name="hint_breed">Tell us your dog\'s breed</string>
     <string name="hint_bio">Tell us about your dog</string>
+    <string name="prompt_size">Size</string>
+
+    <string name="select_profile_image">Select Pawfile Image</string>
+
 
     <string name="good_boy">Good Boy</string>
     <string name="good_girl">Good Girl</string>
