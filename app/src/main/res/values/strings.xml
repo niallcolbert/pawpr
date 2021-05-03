@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Pawpr</string>
     <string name="profile">Pawfile</string>
+    <string name="search">Dog-o-Finder</string>
+    <string name="message">Bark</string>
+
     <string name="button_updateProfile">Update Pawfile</string>
     <string name="button_addImage">Add Image</string>
     <string name="hint_name">Enter your dog\'s name</string>
@@ -22,4 +25,5 @@
     <string name="no">No</string>
     <string name="yes">Yes</string>
     <string name="title_activity_maps">Map</string>
+    <string name="title_activity_main">MainActivity</string>
 </resources>
