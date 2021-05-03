@@ -17,6 +17,7 @@ import com.neddoesdev.pawpr.main.MainApp
 import com.neddoesdev.pawpr.models.Location
 import com.neddoesdev.pawpr.models.ProfileModel
 import kotlinx.android.synthetic.main.fragment_profile.*
+import kotlinx.android.synthetic.main.fragment_profile.view.*
 import org.jetbrains.anko.support.v4.intentFor
 import org.jetbrains.anko.support.v4.toast
 
@@ -27,6 +28,7 @@ class ProfileFragment : Fragment() {
     val IMAGE_REQUEST = 1
     val LOCATION_REQUEST = 2
     var location = Location(52.256, -7.104, 15f)
+    lateinit var root: View
     private lateinit var profileViewModel: ProfileViewModel
 
     override fun onCreateView(
@@ -34,7 +36,26 @@ class ProfileFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val root = inflater.inflate(R.layout.fragment_profile, container, false)
+        root = inflater.inflate(R.layout.fragment_profile, container, false)
+        root.btnAdd.setOnClickListener() {
+            activity?.title = getString(R.string.profile)
+
+            profile.name = profileName.text.toString()
+            if (profile.name.isNotEmpty()) {
+            } else {
+                toast("Please enter a name")
+            }
+        }
+
+        root.chooseImage.setOnClickListener {
+            chooseImage.setOnClickListener {
+                showImagePicker(this, IMAGE_REQUEST)
+            }
+        }
+
+        root.profileLocation.setOnClickListener {
+            startActivityForResult (intentFor<MapsActivity>().putExtra("location", location), LOCATION_REQUEST)
+        }
         return root
     }
 
@@ -42,23 +63,6 @@ class ProfileFragment : Fragment() {
         super.onCreate(savedInstanceState)
         app = activity?.application as MainApp
 
-//        btnAdd.setOnClickListener() {
-//            profile.name = profileName.text.toString()
-//            if (profile.name.isNotEmpty()) {
-//            } else {
-//                toast("Please enter a name")
-//            }
-//        }
-
-//        chooseImage.setOnClickListener {
-//            chooseImage.setOnClickListener {
-//                showImagePicker(this, IMAGE_REQUEST)
-//            }
-//        }
-//
-//        profileLocation.setOnClickListener {
-//            startActivityForResult (intentFor<MapsActivity>().putExtra("location", location), LOCATION_REQUEST)
-//        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
