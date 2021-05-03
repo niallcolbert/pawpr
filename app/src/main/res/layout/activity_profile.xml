@@ -113,12 +113,17 @@
                     />
                 </RadioGroup>
 
-<!--                <Spinner-->
-<!--                    android:id="@+id/size"-->
-<!--                    android:layout_width="fill_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:prompt="@string/prompt_size"-->
-<!--                    />-->
+                <Button
+                    android:id="@+id/profileLocation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:paddingBottom="8dp"
+                    android:paddingTop="8dp"
+                    android:stateListAnimator="@null"
+                    android:text="@string/button_location"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"/>
 
                 <TextView
                     android:id="@+id/puppyLabel"

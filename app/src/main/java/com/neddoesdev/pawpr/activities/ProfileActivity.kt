@@ -9,6 +9,7 @@ import com.neddoesdev.pawpr.helpers.showImagePicker
 import com.neddoesdev.pawpr.main.MainApp
 import com.neddoesdev.pawpr.models.ProfileModel
 import kotlinx.android.synthetic.main.activity_profile.*
+import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.toast
 
 
@@ -35,6 +36,10 @@ class ProfileActivity : AppCompatActivity() {
             chooseImage.setOnClickListener {
                 showImagePicker(this, IMAGE_REQUEST)
             }
+        }
+
+        profileLocation.setOnClickListener {
+            startActivity (intentFor<MapsActivity>())
         }
     }
 
