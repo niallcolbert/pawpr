@@ -1,10 +1,13 @@
 package com.neddoesdev.pawpr.models
 
 import android.os.Parcelable
+import com.google.firebase.database.Exclude
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class ProfileModel (
+        var uid: String? = "",
+        var userId: String = "",
         var profileImage: String = "",
         var name: String = "",
         var breed: String = "",
@@ -16,7 +19,25 @@ data class ProfileModel (
         var lng: Double = 0.0,
         var zoom: Float = 0f
     ) : Parcelable
-
+{
+    @Exclude
+    fun toMap(): Map<String, Any?> {
+        return mapOf(
+                "uid" to uid,
+                "userId" to userId,
+                "profileImage" to profileImage,
+                "name" to name,
+                "breed" to breed,
+                "bio" to bio,
+                "gender" to gender,
+                "isPuppy" to isPuppy,
+                "isFixed" to isFixed,
+                "lat" to lat,
+                "lng" to lng,
+                "zoom" to zoom
+        )
+    }
+}
 
 @Parcelize
 data class Location(

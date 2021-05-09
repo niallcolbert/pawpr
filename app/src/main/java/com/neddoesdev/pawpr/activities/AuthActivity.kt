@@ -8,10 +8,12 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.common.SignInButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.FirebaseDatabase
 import com.neddoesdev.pawpr.R
 import com.neddoesdev.pawpr.main.MainApp
 import kotlinx.android.synthetic.main.activity_auth.*
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
 
 class AuthActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -26,6 +28,8 @@ class AuthActivity : AppCompatActivity(), View.OnClickListener {
         emailCreateAccountButton.setOnClickListener(this)
 
         app.auth = FirebaseAuth.getInstance()
+        app.database = FirebaseDatabase.getInstance().reference
+
 
         sign_in_button.setSize(SignInButton.SIZE_WIDE)
         sign_in_button.setColorScheme(0)
@@ -35,11 +39,13 @@ class AuthActivity : AppCompatActivity(), View.OnClickListener {
 
     public override fun onStart() {
         super.onStart()
-        // Check if user is signed in (non-null) and update UI accordingly.
-        val currentUser = app.auth.currentUser
     }
 
     private fun createAccount(email: String, password: String) {
+        if (email.isEmpty() || password.isEmpty()) {
+            toast("Please enter an email and password")
+            return
+        }
         app.auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
@@ -52,6 +58,10 @@ class AuthActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun signIn(email: String, password: String) {
+        if (email.isEmpty() || password.isEmpty()) {
+            toast("Please enter an email and password")
+            return
+        }
         app.auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {

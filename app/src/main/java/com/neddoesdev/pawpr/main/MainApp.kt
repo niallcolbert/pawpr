@@ -2,12 +2,12 @@ package com.neddoesdev.pawpr.main
 
 import android.app.Application
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
 
 class MainApp : Application() {
 
-    // [START declare_auth]
     lateinit var auth: FirebaseAuth
-    // [END declare_auth]
+    lateinit var database: DatabaseReference
 
     override fun onCreate() {
         super.onCreate()

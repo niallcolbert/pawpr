@@ -8,6 +8,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.google.firebase.database.FirebaseDatabase
 import com.neddoesdev.pawpr.R
 import com.neddoesdev.pawpr.main.MainApp
 

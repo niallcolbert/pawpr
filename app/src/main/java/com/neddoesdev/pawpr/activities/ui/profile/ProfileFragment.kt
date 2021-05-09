@@ -1,14 +1,14 @@
 package com.neddoesdev.pawpr.activities.ui.profile
 
-import android.content.ContentResolver
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 import com.neddoesdev.pawpr.R
 import com.neddoesdev.pawpr.activities.MapsActivity
 import com.neddoesdev.pawpr.helpers.readImage
@@ -40,8 +40,20 @@ class ProfileFragment : Fragment() {
         root.btnAdd.setOnClickListener() {
             activity?.title = getString(R.string.profile)
 
+            val userId = app.auth.currentUser!!.uid
+
             profile.name = profileName.text.toString()
+            profile.bio = profileBio.text.toString()
+            profile.breed = profileBreed.text.toString()
+            profile.userId = userId
+
+            var id: Int = radioGroup.checkedRadioButtonId
+            if (id!=-1){
+                profile.gender = if (id == R.id.radio_male) "male" else "female"
+            }
+
             if (profile.name.isNotEmpty()) {
+                saveProfile(profile)
             } else {
                 toast("Please enter a name")
             }
@@ -56,13 +68,48 @@ class ProfileFragment : Fragment() {
         root.profileLocation.setOnClickListener {
             startActivityForResult (intentFor<MapsActivity>().putExtra("location", location), LOCATION_REQUEST)
         }
+
+        getUserProfile()
+
         return root
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         app = activity?.application as MainApp
+    }
 
+    fun getUserProfile() {
+        val userId = app.auth.currentUser!!.uid
+
+        app.database.child("profile").child(userId)
+                .addValueEventListener(object : ValueEventListener {
+                    override fun onCancelled(error: DatabaseError) {
+                        toast("error : ${error.message}")
+                    }
+
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        val children = snapshot.children
+                        children.forEach {
+                            if (it.hasChild("breed")) {
+                                val dbprofile = it.getValue<ProfileModel>(ProfileModel::class.java)
+
+                                if (dbprofile!!.userId == app.auth.currentUser!!.uid ) {
+                                    profile.uid = dbprofile.uid
+                                    profileName.setText(dbprofile.name)
+                                    profileBio.setText(dbprofile.bio)
+                                    profileBreed.setText(dbprofile.breed)
+                                    var radio_id = if (dbprofile.gender == "male") R.id.radio_male else R.id.radio_female
+                                    radioGroup.check(radio_id)
+                                    return
+                                }
+                            }
+                        }
+
+                        app.database.child("profile").child(profile.userId.toString())
+                                .removeEventListener(this)
+                    }
+                })
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -80,5 +127,27 @@ class ProfileFragment : Fragment() {
                 }
             }
         }
+    }
+
+    fun saveProfile(profileData: ProfileModel) {
+        val uid = app.auth.currentUser!!.uid
+        val key: String
+        if (profile.uid.toString().isEmpty()) {
+            key = app.database.child("profile").push().key.toString()
+            if (key == null) {
+                return
+            }
+            profileData.uid = key
+        } else {
+            key = profile.uid.toString()
+            profileData.uid = profile.uid
+        }
+
+        val values = profileData.toMap()
+
+        val childUpdates = HashMap<String, Any>()
+        childUpdates["/profile/$uid/$key"] = values
+
+        app.database.updateChildren(childUpdates)
     }
 }
