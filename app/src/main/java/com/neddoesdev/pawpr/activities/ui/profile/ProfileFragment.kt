@@ -45,6 +45,8 @@ class ProfileFragment : Fragment() {
             profile.name = profileName.text.toString()
             profile.bio = profileBio.text.toString()
             profile.breed = profileBreed.text.toString()
+            profile.isPuppy = puppyToggle.isChecked()
+            profile.isFixed = fixedToggle.isChecked()
             profile.userId = userId
 
             var id: Int = radioGroup.checkedRadioButtonId
@@ -99,6 +101,8 @@ class ProfileFragment : Fragment() {
                                     profileName.setText(dbprofile.name)
                                     profileBio.setText(dbprofile.bio)
                                     profileBreed.setText(dbprofile.breed)
+                                    puppyToggle.setChecked(dbprofile.isPuppy)
+                                    fixedToggle.setChecked(dbprofile.isFixed)
                                     var radio_id = if (dbprofile.gender == "male") R.id.radio_male else R.id.radio_female
                                     radioGroup.check(radio_id)
                                     return
