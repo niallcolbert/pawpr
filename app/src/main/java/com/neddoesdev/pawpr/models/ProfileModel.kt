@@ -13,13 +13,15 @@ data class ProfileModel (
         var breed: String = "",
         var bio: String = "",
         var gender: String = "male",
-        var isPuppy: Boolean = false,
-        var isFixed: Boolean = false,
+        var isPuppy: String = "false",
+        var isFixed: String = "false",
         var lat : Double = 0.0,
         var lng: Double = 0.0,
         var zoom: Float = 0f
     ) : Parcelable
 {
+
+
     @Exclude
     fun toMap(): Map<String, Any?> {
         return mapOf(
