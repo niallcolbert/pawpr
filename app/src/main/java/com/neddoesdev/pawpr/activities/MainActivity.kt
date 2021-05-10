@@ -52,9 +52,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun signOut() {
-        toast("logout")
-        app.auth.signOut()
-        startActivity<AuthActivity>()
-        finish()
+        app.googleSignInClient.signOut().addOnCompleteListener(this) {
+            app.auth.signOut()
+            startActivity<AuthActivity>()
+            finish()
+        }
     }
 }
