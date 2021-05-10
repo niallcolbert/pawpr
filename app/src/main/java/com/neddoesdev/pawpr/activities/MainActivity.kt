@@ -1,6 +1,8 @@
 package com.neddoesdev.pawpr.activities
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentTransaction
@@ -11,6 +13,8 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.firebase.database.FirebaseDatabase
 import com.neddoesdev.pawpr.R
 import com.neddoesdev.pawpr.main.MainApp
+import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
 
 class MainActivity : AppCompatActivity() {
 
@@ -35,7 +39,22 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
     }
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_header, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_logout -> signOut()
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     private fun signOut() {
+        toast("logout")
         app.auth.signOut()
+        startActivity<AuthActivity>()
+        finish()
     }
 }
