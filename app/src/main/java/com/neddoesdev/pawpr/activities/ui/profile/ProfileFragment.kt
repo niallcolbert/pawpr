@@ -46,6 +46,9 @@ class ProfileFragment : Fragment() {
             profile.breed = profileBreed.text.toString()
 //            profile.isPuppy = puppyToggle.isChecked().toString()
 //            profile.isFixed = fixedToggle.isChecked().toString()
+            profile.lng = location.lng
+            profile.lat = location.lat
+            profile.zoom = location.zoom
             profile.userId = userId
 
             var id: Int = radioGroup.checkedRadioButtonId
@@ -101,6 +104,9 @@ class ProfileFragment : Fragment() {
                                     profileBreed.setText(dbprofile.breed)
 //                                    puppyToggle.setChecked(dbprofile.isPuppy == "true")
 //                                    fixedToggle.setChecked(dbprofile.isFixed == "true")
+                                    location.lat = dbprofile.lat
+                                    location.lng = dbprofile.lng
+                                    location.zoom = dbprofile.zoom
                                     var radio_id = if (dbprofile.gender == "male") R.id.radio_male else R.id.radio_female
                                     radioGroup.check(radio_id)
                                     return
