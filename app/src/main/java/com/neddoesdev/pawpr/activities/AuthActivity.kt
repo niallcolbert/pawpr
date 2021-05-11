@@ -17,6 +17,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
 import com.neddoesdev.pawpr.R
 import com.neddoesdev.pawpr.main.MainApp
 import kotlinx.android.synthetic.main.activity_auth.*
@@ -37,6 +38,8 @@ class AuthActivity : AppCompatActivity(), View.OnClickListener {
 
         app.auth = FirebaseAuth.getInstance()
         app.database = FirebaseDatabase.getInstance().reference
+        app.storage = FirebaseStorage.getInstance().reference
+
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))

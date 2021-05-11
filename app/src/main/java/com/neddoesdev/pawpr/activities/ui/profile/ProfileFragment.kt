@@ -11,7 +11,6 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.neddoesdev.pawpr.R
 import com.neddoesdev.pawpr.activities.MapsActivity
-import com.neddoesdev.pawpr.helpers.readImage
 import com.neddoesdev.pawpr.helpers.showImagePicker
 import com.neddoesdev.pawpr.main.MainApp
 import com.neddoesdev.pawpr.models.Location
@@ -45,8 +44,8 @@ class ProfileFragment : Fragment() {
             profile.name = profileName.text.toString()
             profile.bio = profileBio.text.toString()
             profile.breed = profileBreed.text.toString()
-            profile.isPuppy = puppyToggle.isChecked().toString()
-            profile.isFixed = fixedToggle.isChecked().toString()
+//            profile.isPuppy = puppyToggle.isChecked().toString()
+//            profile.isFixed = fixedToggle.isChecked().toString()
             profile.userId = userId
 
             var id: Int = radioGroup.checkedRadioButtonId
@@ -100,8 +99,8 @@ class ProfileFragment : Fragment() {
                                     profileName.setText(dbprofile.name)
                                     profileBio.setText(dbprofile.bio)
                                     profileBreed.setText(dbprofile.breed)
-                                    puppyToggle.setChecked(dbprofile.isPuppy == "true")
-                                    fixedToggle.setChecked(dbprofile.isFixed == "true")
+//                                    puppyToggle.setChecked(dbprofile.isPuppy == "true")
+//                                    fixedToggle.setChecked(dbprofile.isFixed == "true")
                                     var radio_id = if (dbprofile.gender == "male") R.id.radio_male else R.id.radio_female
                                     radioGroup.check(radio_id)
                                     return
@@ -121,7 +120,6 @@ class ProfileFragment : Fragment() {
             IMAGE_REQUEST -> {
                 if (data != null) {
                     profile.profileImage = data.getData().toString()
-                    profileImage.setImageBitmap(readImage(this, resultCode, data))
                 }
             }
             LOCATION_REQUEST -> {
@@ -153,4 +151,5 @@ class ProfileFragment : Fragment() {
 
         app.database.updateChildren(childUpdates)
     }
+
 }

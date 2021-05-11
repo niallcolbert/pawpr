@@ -118,37 +118,37 @@
                         />
                 </RadioGroup>
 
-                <TextView
-                    android:id="@+id/puppyLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/puppy_label"
-                    />
+<!--                <TextView-->
+<!--                    android:id="@+id/puppyLabel"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="@string/puppy_label"-->
+<!--                    />-->
 
-                <ToggleButton
-                    android:id="@+id/puppyToggle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="false"
-                    android:textOff="@string/no"
-                    android:textOn="@string/yes"
-                    />
+<!--                <ToggleButton-->
+<!--                    android:id="@+id/puppyToggle"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:checked="false"-->
+<!--                    android:textOff="@string/no"-->
+<!--                    android:textOn="@string/yes"-->
+<!--                    />-->
 
-                <TextView
-                    android:id="@+id/fixedLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/fixed_label"
-                    />
+<!--                <TextView-->
+<!--                    android:id="@+id/fixedLabel"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="@string/fixed_label"-->
+<!--                    />-->
 
-                <ToggleButton
-                    android:id="@+id/fixedToggle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="false"
-                    android:textOff="@string/no"
-                    android:textOn="@string/yes"
-                    />
+<!--                <ToggleButton-->
+<!--                    android:id="@+id/fixedToggle"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:checked="false"-->
+<!--                    android:textOff="@string/no"-->
+<!--                    android:textOn="@string/yes"-->
+<!--                    />-->
 
 
                 <Button

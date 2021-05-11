@@ -13,8 +13,8 @@ data class ProfileModel (
         var breed: String = "",
         var bio: String = "",
         var gender: String = "male",
-        var isPuppy: String = "false",
-        var isFixed: String = "false",
+//        var isPuppy: String? = "",
+//        var isFixed: String? = "",
         var lat : Double = 0.0,
         var lng: Double = 0.0,
         var zoom: Float = 0f
@@ -32,8 +32,8 @@ data class ProfileModel (
                 "breed" to breed,
                 "bio" to bio,
                 "gender" to gender,
-                "isPuppy" to isPuppy,
-                "isFixed" to isFixed,
+//                "isPuppy" to isPuppy,
+//                "isFixed" to isFixed,
                 "lat" to lat,
                 "lng" to lng,
                 "zoom" to zoom

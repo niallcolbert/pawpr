@@ -20,31 +20,3 @@ fun showImagePicker(parent: ProfileFragment, id: Int) {
     parent.startActivityForResult(chooser, id)
 }
 
-fun readImage(activity: ProfileFragment, resultCode: Int, data: Intent?): Bitmap? {
-    var bitmap: Bitmap? = null
-    if (resultCode == Activity.RESULT_OK && data != null && data.data != null) {
-        try {
-//            bitmap = ImageDecoder.decodeBitmap(
-//                    ImageDecoder.createSource(activity.contentResolver, data.data!!
-//                    ))
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
-    }
-    return bitmap
-}
-
-fun readImageFromPath(context: Context, path : String) : Bitmap? {
-    var bitmap : Bitmap? = null
-    val uri = Uri.parse(path)
-    if (uri != null) {
-        try {
-            val parcelFileDescriptor = context.getContentResolver().openFileDescriptor(uri, "r")
-            val fileDescriptor = parcelFileDescriptor?.getFileDescriptor()
-            bitmap = BitmapFactory.decodeFileDescriptor(fileDescriptor)
-            parcelFileDescriptor?.close()
-        } catch (e: Exception) {
-        }
-    }
-    return bitmap
-}
