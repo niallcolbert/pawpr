@@ -28,7 +28,6 @@ class ProfileFragment : Fragment() {
     val LOCATION_REQUEST = 2
     var location = Location(52.256, -7.104, 15f)
     lateinit var root: View
-    private lateinit var profileViewModel: ProfileViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -156,6 +155,7 @@ class ProfileFragment : Fragment() {
         childUpdates["/profile/$uid/$key"] = values
 
         app.database.updateChildren(childUpdates)
+        toast("Your profile was updated")
     }
 
 }

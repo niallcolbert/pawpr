@@ -2,8 +2,10 @@ package com.neddoesdev.pawpr.models
 
 import android.os.Parcelable
 import com.google.firebase.database.Exclude
+import com.google.firebase.database.IgnoreExtraProperties
 import kotlinx.android.parcel.Parcelize
 
+@IgnoreExtraProperties
 @Parcelize
 data class ProfileModel (
         var uid: String? = "",
