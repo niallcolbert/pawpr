@@ -33,7 +33,7 @@ class SearchFragment : Fragment(), CardStackListener {
         root = inflater.inflate(R.layout.fragment_search, container, false)
         activity?.title = getString(R.string.search)
 
-        root.stack_view.setLayoutManager(CardStackLayoutManager(activity))
+        root.stack_view.setLayoutManager(CardStackLayoutManager(activity, this))
 
         setSwipeRefresh()
 
@@ -98,12 +98,10 @@ class SearchFragment : Fragment(), CardStackListener {
     }
 
     override fun onCardDragging(direction: Direction, ratio: Float) {
-        toast(direction.toString())
     }
 
     override fun onCardSwiped(direction: Direction) {
         toast(direction.toString())
-        Log.d("CardStackView", "onCardSwiped:  $direction")
         if(direction.toString() == "right") likeProfile() else dislikeProfile()
     }
 
@@ -117,7 +115,6 @@ class SearchFragment : Fragment(), CardStackListener {
     }
 
     override fun onCardDisappeared(view: View, position: Int) {
-        toast("poof")
     }
 
     fun likeProfile() {
