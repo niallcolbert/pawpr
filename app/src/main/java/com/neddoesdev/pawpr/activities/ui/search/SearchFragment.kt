@@ -24,6 +24,8 @@ import kotlin.collections.ArrayList
 class SearchFragment : Fragment(), CardStackListener {
     lateinit var app: MainApp
     lateinit var root: View
+    lateinit var manager: CardStackLayoutManager
+    val profiles = ArrayList<ProfileModel>()
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -33,8 +35,8 @@ class SearchFragment : Fragment(), CardStackListener {
         root = inflater.inflate(R.layout.fragment_search, container, false)
         activity?.title = getString(R.string.search)
 
-        root.stack_view.setLayoutManager(CardStackLayoutManager(activity, this))
-
+        manager = CardStackLayoutManager(activity, this)
+        root.stack_view.setLayoutManager(manager)
         setSwipeRefresh()
 
         return root
@@ -67,7 +69,7 @@ class SearchFragment : Fragment(), CardStackListener {
     }
 
     fun getProfiles() {
-        val profiles = ArrayList<ProfileModel>()
+        profiles.clear()
         app.database.child("profile")
                 .addValueEventListener(object : ValueEventListener {
                     override fun onCancelled(error: DatabaseError) {
@@ -100,9 +102,8 @@ class SearchFragment : Fragment(), CardStackListener {
     override fun onCardDragging(direction: Direction, ratio: Float) {
     }
 
-    override fun onCardSwiped(direction: Direction) {
-        toast(direction.toString())
-        if(direction.toString() == "right") likeProfile() else dislikeProfile()
+    override fun onCardSwiped(direction: Direction, ) {
+        if(direction.toString().toLowerCase() == "right") likeProfile()
     }
 
     override fun onCardRewound() {
@@ -118,10 +119,6 @@ class SearchFragment : Fragment(), CardStackListener {
     }
 
     fun likeProfile() {
-        toast("liked")
-    }
-
-    fun dislikeProfile () {
-        toast("disliked")
+        toast("You liked " + profiles.get(manager.topPosition - 1).name)
     }
 }
