@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -20,6 +19,7 @@ import com.yuyakaido.android.cardstackview.CardStackListener
 import com.yuyakaido.android.cardstackview.Direction
 import kotlinx.android.synthetic.main.fragment_search.view.*
 import org.jetbrains.anko.support.v4.toast
+import kotlin.collections.ArrayList
 
 class SearchFragment : Fragment(), CardStackListener {
     lateinit var app: MainApp
@@ -76,7 +76,7 @@ class SearchFragment : Fragment(), CardStackListener {
 
                     override fun onDataChange(snapshot: DataSnapshot) {
                         val children = snapshot.children
-                        children.forEach {
+                        children.shuffled().forEach {
 
                             it.children.forEach {
                                 var profile = it.
