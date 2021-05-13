@@ -21,9 +21,11 @@
 
     <string name="button_location">Where do you play?</string>
 
-    <string name="any">Anywhere</string>
+    <string name="any">Any</string>
     <string name="five_km">Up to 5km</string>
     <string name="ten_km">Up to 10km</string>
+    <string name="no_results">There are no results for your search, try a wider range</string>
+    <string name="no_friends">There are no dogs in your kennel club, try liking a few in the Dog-o-Finder</string>
 
     <string name="good_boy">Good Boy</string>
     <string name="good_girl">Good Girl</string>

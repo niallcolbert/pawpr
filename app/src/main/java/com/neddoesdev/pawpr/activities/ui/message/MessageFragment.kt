@@ -35,6 +35,9 @@ class MessageFragment : Fragment() {
         activity?.title = getString(R.string.message)
 
         root.recyclerView.setLayoutManager(LinearLayoutManager(activity))
+
+        root.no_friends_label.setText(R.string.no_friends)
+
         setSwipeRefresh()
 
         return root
@@ -85,6 +88,8 @@ class MessageFragment : Fragment() {
 
     fun getFriends() {
         friends.clear()
+        root.no_friends_label.setText(R.string.no_friends)
+
         app.database.child("profile")
                 .addValueEventListener(object : ValueEventListener {
                     override fun onCancelled(error: DatabaseError) {
@@ -122,7 +127,7 @@ class MessageFragment : Fragment() {
                         children.forEach {
                             if (it.key.toString() == user_id && !friends.contains(profile)) friends.add(profile)
                         }
-
+                        if(!friends.isEmpty()) root.no_friends_label.setText("")
                         root.recyclerView.adapter =
                                 ProfileAdapter(friends)
                         root.recyclerView.adapter?.notifyDataSetChanged()

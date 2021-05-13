@@ -56,6 +56,8 @@ class SearchFragment : Fragment(), CardStackListener {
             setProfileRange("10000")
         }
 
+        root.no_results_label.setText(R.string.no_results)
+
         return root
     }
 
@@ -124,6 +126,7 @@ class SearchFragment : Fragment(), CardStackListener {
 
     fun getProfiles() {
         profiles.clear()
+        root.no_results_label.setText(R.string.no_results)
         app.database.child("profile")
             .addValueEventListener(object : ValueEventListener {
                 override fun onCancelled(error: DatabaseError) {
@@ -153,6 +156,7 @@ class SearchFragment : Fragment(), CardStackListener {
                             }
                         }
                     }
+                    if(!profiles.isEmpty()) root.no_results_label.setText("")
                     root.stack_view.adapter =
                         ProfileAdapter(profiles)
                     root.stack_view.adapter?.notifyDataSetChanged()
