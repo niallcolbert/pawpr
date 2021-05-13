@@ -86,37 +86,37 @@ class ProfileFragment : Fragment() {
         val userId = app.auth.currentUser!!.uid
 
         app.database.child("profile").child(userId)
-                .addValueEventListener(object : ValueEventListener {
-                    override fun onCancelled(error: DatabaseError) {
-                        toast("error : ${error.message}")
-                    }
+            .addValueEventListener(object : ValueEventListener {
+                override fun onCancelled(error: DatabaseError) {
+                    toast("error : ${error.message}")
+                }
 
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        val children = snapshot.children
-                        children.forEach {
-                            if (it.hasChild("breed")) {
-                                val dbprofile = it.getValue<ProfileModel>(ProfileModel::class.java)
-                                if (dbprofile!!.userId == app.auth.currentUser!!.uid ) {
-                                    profile.uid = dbprofile.uid
-                                    profileName.setText(dbprofile.name)
-                                    profileBio.setText(dbprofile.bio)
-                                    profileBreed.setText(dbprofile.breed)
-//                                    puppyToggle.setChecked(dbprofile.isPuppy == "true")
-//                                    fixedToggle.setChecked(dbprofile.isFixed == "true")
-                                    location.lat = dbprofile.lat
-                                    location.lng = dbprofile.lng
-                                    location.zoom = dbprofile.zoom
-                                    var radio_id = if (dbprofile.gender == "male") R.id.radio_male else R.id.radio_female
-                                    radioGroup.check(radio_id)
-                                    return
-                                }
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val children = snapshot.children
+                    children.forEach {
+                        if (it.hasChild("breed")) {
+                            val dbprofile = it.getValue<ProfileModel>(ProfileModel::class.java)
+                            if (dbprofile!!.userId == app.auth.currentUser!!.uid ) {
+                                profile.uid = dbprofile.uid
+                                profileName.setText(dbprofile.name)
+                                profileBio.setText(dbprofile.bio)
+                                profileBreed.setText(dbprofile.breed)
+//                                   puppyToggle.setChecked(dbprofile.isPuppy == "true")
+//                                   fixedToggle.setChecked(dbprofile.isFixed == "true")
+                                location.lat = dbprofile.lat
+                                location.lng = dbprofile.lng
+                                location.zoom = dbprofile.zoom
+                                var radio_id = if (dbprofile.gender == "male") R.id.radio_male else R.id.radio_female
+                                radioGroup.check(radio_id)
+                                return
                             }
                         }
-
-                        app.database.child("profile").child(profile.userId.toString())
-                                .removeEventListener(this)
                     }
-                })
+
+                    app.database.child("profile").child(profile.userId.toString())
+                        .removeEventListener(this)
+                }
+            })
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

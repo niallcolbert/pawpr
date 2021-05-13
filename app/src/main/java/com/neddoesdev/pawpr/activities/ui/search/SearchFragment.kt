@@ -1,12 +1,10 @@
 package com.neddoesdev.pawpr.activities.ui.search
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -24,7 +22,9 @@ import kotlin.collections.ArrayList
 class SearchFragment : Fragment(), CardStackListener {
     lateinit var app: MainApp
     lateinit var root: View
+    lateinit var user_id: String
     lateinit var manager: CardStackLayoutManager
+    val likes = ArrayList<String>()
     val profiles = ArrayList<ProfileModel>()
 
     override fun onCreateView(
@@ -37,7 +37,6 @@ class SearchFragment : Fragment(), CardStackListener {
 
         manager = CardStackLayoutManager(activity, this)
         root.stack_view.setLayoutManager(manager)
-        setSwipeRefresh()
 
         return root
     }
@@ -45,19 +44,7 @@ class SearchFragment : Fragment(), CardStackListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         app = activity?.application as MainApp
-    }
-
-    fun setSwipeRefresh() {
-        root.swiperefresh.setOnRefreshListener(object : SwipeRefreshLayout.OnRefreshListener {
-            override fun onRefresh() {
-                root.swiperefresh.isRefreshing = true
-                getProfiles()
-            }
-        })
-    }
-
-    fun checkSwipeRefresh() {
-        if (root.swiperefresh.isRefreshing) root.swiperefresh.isRefreshing = false
+        user_id = app.auth.currentUser!!.uid
     }
 
     fun isInRange() {
@@ -65,12 +52,12 @@ class SearchFragment : Fragment(), CardStackListener {
 
     override fun onResume() {
         super.onResume()
-        getProfiles()
+        getLikes()
     }
 
-    fun getProfiles() {
-        profiles.clear()
-        app.database.child("profile")
+    fun getLikes() {
+        likes.clear()
+        app.database.child("likes").child(user_id)
                 .addValueEventListener(object : ValueEventListener {
                     override fun onCancelled(error: DatabaseError) {
                         toast("error : ${error.message}")
@@ -78,25 +65,43 @@ class SearchFragment : Fragment(), CardStackListener {
 
                     override fun onDataChange(snapshot: DataSnapshot) {
                         val children = snapshot.children
-                        children.shuffled().forEach {
-
-                            it.children.forEach {
-                                var profile = it.
-                                getValue<ProfileModel>(ProfileModel::class.java)
-
-                                if ( profile!!.userId != app.auth.currentUser!!.uid ) {
-                                    profiles.add(profile!!)
-                                }
-                            }
+                        children.forEach {
+                            likes.add(it.key.toString())
                         }
-                        root.stack_view.adapter =
-                            ProfileAdapter(profiles)
-                        root.stack_view.adapter?.notifyDataSetChanged()
-                        checkSwipeRefresh()
-
-                        app.database.child("profile").removeEventListener(this)
+                        getProfiles()
+                        app.database.child("likes").child(user_id).removeEventListener(this)
                     }
                 })
+    }
+
+    fun getProfiles() {
+        profiles.clear()
+        app.database.child("profile")
+            .addValueEventListener(object : ValueEventListener {
+                override fun onCancelled(error: DatabaseError) {
+                    toast("error : ${error.message}")
+                }
+
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val children = snapshot.children
+                    children.shuffled().forEach {
+
+                        it.children.forEach {
+                            var profile = it.
+                            getValue<ProfileModel>(ProfileModel::class.java)
+
+                            if ( profile!!.userId != user_id && !likes.contains(profile!!.userId)  ) {
+                                profiles.add(profile!!)
+                            }
+                        }
+                    }
+                    root.stack_view.adapter =
+                        ProfileAdapter(profiles)
+                    root.stack_view.adapter?.notifyDataSetChanged()
+
+                    app.database.child("profile").removeEventListener(this)
+                }
+            })
     }
 
     override fun onCardDragging(direction: Direction, ratio: Float) {
@@ -119,6 +124,11 @@ class SearchFragment : Fragment(), CardStackListener {
     }
 
     fun likeProfile() {
-        toast("You liked " + profiles.get(manager.topPosition - 1).name)
+        val liked_profile =  profiles.get(manager.topPosition - 1)
+        val liked_id = liked_profile.userId
+        val childUpdates = HashMap<String, Any>()
+        childUpdates["/likes/$user_id/$liked_id"] = true
+        app.database.updateChildren(childUpdates)
+        toast("You liked " + liked_profile.name)
     }
 }
