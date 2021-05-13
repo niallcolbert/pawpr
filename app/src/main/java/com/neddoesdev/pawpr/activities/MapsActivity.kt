@@ -13,17 +13,17 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.neddoesdev.pawpr.R
-import com.neddoesdev.pawpr.models.Location
+import com.neddoesdev.pawpr.models.LocationModel
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback,  GoogleMap.OnMarkerDragListener {
 
     private lateinit var mMap: GoogleMap
-    var location = Location()
+    var location = LocationModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
-        location = intent.extras?.getParcelable<Location>("location")!!
+        location = intent.extras?.getParcelable<LocationModel>("location")!!
         val mapFragment = supportFragmentManager
                 .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)

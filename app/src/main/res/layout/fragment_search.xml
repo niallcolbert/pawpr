@@ -6,11 +6,48 @@
     android:layout_height="match_parent"
     tools:context=".activities.ui.search.SearchFragment">
 
-        <com.yuyakaido.android.cardstackview.CardStackView
-            android:id="@+id/stack_view"
-            android:layout_width="380dp"
-            android:layout_height="404dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="12dp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent">
+                <LinearLayout
+                    android:id="@+id/rangeButtons"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent" >
+                        <Button
+                            android:id="@+id/range_any"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/any" />
+
+                        <Button
+                            android:id="@+id/range_5km"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/five_km" />
+
+                        <Button
+                            android:id="@+id/range_10km"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/ten_km" />
+                </LinearLayout>
+
+
+                <com.yuyakaido.android.cardstackview.CardStackView
+                    android:id="@+id/stack_view"
+                    android:layout_below="@id/rangeButtons"
+                    android:layout_width="380dp"
+                    android:layout_height="404dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="12dp" />
+        </RelativeLayout>
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,7 +13,7 @@ import com.neddoesdev.pawpr.R
 import com.neddoesdev.pawpr.activities.MapsActivity
 import com.neddoesdev.pawpr.helpers.showImagePicker
 import com.neddoesdev.pawpr.main.MainApp
-import com.neddoesdev.pawpr.models.Location
+import com.neddoesdev.pawpr.models.LocationModel
 import com.neddoesdev.pawpr.models.ProfileModel
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.fragment_profile.view.*
@@ -26,7 +26,7 @@ class ProfileFragment : Fragment() {
     lateinit var app: MainApp
     val IMAGE_REQUEST = 1
     val LOCATION_REQUEST = 2
-    var location = Location(52.256, -7.104, 15f)
+    var location = LocationModel(52.256, -7.104, 15f)
     lateinit var root: View
 
     override fun onCreateView(
@@ -63,9 +63,7 @@ class ProfileFragment : Fragment() {
         }
 
         root.chooseImage.setOnClickListener {
-            chooseImage.setOnClickListener {
-                showImagePicker(this, IMAGE_REQUEST)
-            }
+            showImagePicker(this, IMAGE_REQUEST)
         }
 
         root.profileLocation.setOnClickListener {
@@ -129,7 +127,7 @@ class ProfileFragment : Fragment() {
             }
             LOCATION_REQUEST -> {
                 if (data != null) {
-                    location = data.extras?.getParcelable<Location>("location")!!
+                    location = data.extras?.getParcelable<LocationModel>("location")!!
                 }
             }
         }

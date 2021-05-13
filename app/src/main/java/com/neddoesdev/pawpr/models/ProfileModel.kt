@@ -44,7 +44,7 @@ data class ProfileModel (
 }
 
 @Parcelize
-data class Location(
+data class LocationModel(
         var lat: Double = 0.0,
         var lng: Double = 0.0,
         var zoom: Float = 0f
