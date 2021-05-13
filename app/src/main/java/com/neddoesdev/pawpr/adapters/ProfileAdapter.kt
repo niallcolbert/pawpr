@@ -32,9 +32,9 @@ class ProfileAdapter constructor(private var profiles: List<ProfileModel>) :
 
         fun bind(profile: ProfileModel) {
             itemView.profile_name.text = profile.name
-            itemView.profile_breed.text = profile.breed
-            itemView.profile_bio.text = profile.bio
-            itemView.profile_gender.text = profile.gender
+            itemView.profile_breed.text = "Breed: " + profile.breed
+            itemView.profile_bio.text = "Bio: " + profile.bio
+            itemView.profile_gender.text = if (profile.gender == "male") "Good Boy" else "Good Girl"
         }
     }
 }
