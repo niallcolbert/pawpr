@@ -10,7 +10,6 @@ import kotlinx.android.parcel.Parcelize
 data class ProfileModel (
         var uid: String? = "",
         var userId: String = "",
-        var profileImage: String = "",
         var name: String = "",
         var breed: String = "",
         var bio: String = "",
@@ -29,7 +28,6 @@ data class ProfileModel (
         return mapOf(
                 "uid" to uid,
                 "userId" to userId,
-                "profileImage" to profileImage,
                 "name" to name,
                 "breed" to breed,
                 "bio" to bio,

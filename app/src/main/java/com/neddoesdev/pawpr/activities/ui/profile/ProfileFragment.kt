@@ -2,6 +2,7 @@ package com.neddoesdev.pawpr.activities.ui.profile
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,10 +12,14 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.neddoesdev.pawpr.R
 import com.neddoesdev.pawpr.activities.MapsActivity
+import com.neddoesdev.pawpr.helpers.readImageUri
 import com.neddoesdev.pawpr.helpers.showImagePicker
+import com.neddoesdev.pawpr.helpers.uploadImage
 import com.neddoesdev.pawpr.main.MainApp
 import com.neddoesdev.pawpr.models.LocationModel
 import com.neddoesdev.pawpr.models.ProfileModel
+import com.squareup.picasso.Callback
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.fragment_profile.view.*
 import org.jetbrains.anko.support.v4.intentFor
@@ -28,6 +33,7 @@ class ProfileFragment : Fragment() {
     val LOCATION_REQUEST = 2
     var location = LocationModel(52.256, -7.104, 15f)
     lateinit var root: View
+    lateinit var userId: String
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -70,6 +76,13 @@ class ProfileFragment : Fragment() {
             startActivityForResult (intentFor<MapsActivity>().putExtra("location", location), LOCATION_REQUEST)
         }
 
+        app.storage.child("photos/$userId.jpg").downloadUrl.addOnSuccessListener {
+            app.userImage = it
+            Picasso.get().load(app.userImage)
+                .into(root.profileImage)
+        }.addOnFailureListener {
+        }
+
         getUserProfile()
 
         return root
@@ -78,11 +91,10 @@ class ProfileFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         app = activity?.application as MainApp
+        userId = app.auth.currentUser!!.uid
     }
 
     fun getUserProfile() {
-        val userId = app.auth.currentUser!!.uid
-
         app.database.child("profile").child(userId)
             .addValueEventListener(object : ValueEventListener {
                 override fun onCancelled(error: DatabaseError) {
@@ -122,7 +134,9 @@ class ProfileFragment : Fragment() {
         when (requestCode) {
             IMAGE_REQUEST -> {
                 if (data != null) {
-                    profile.profileImage = data.getData().toString()
+                    val uri = readImageUri(resultCode, data)
+                    Picasso.get().load(uri)
+                        .into(root.profileImage)
                 }
             }
             LOCATION_REQUEST -> {
@@ -154,6 +168,7 @@ class ProfileFragment : Fragment() {
 
         app.database.updateChildren(childUpdates)
         toast("Your profile was updated")
+        uploadImage(app, root.profileImage)
     }
 
 }

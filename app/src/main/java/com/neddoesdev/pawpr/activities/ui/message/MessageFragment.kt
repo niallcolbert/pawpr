@@ -15,7 +15,6 @@ import com.neddoesdev.pawpr.adapters.ProfileAdapter
 import com.neddoesdev.pawpr.main.MainApp
 import com.neddoesdev.pawpr.models.ProfileModel
 import kotlinx.android.synthetic.main.fragment_message.view.*
-import kotlinx.android.synthetic.main.fragment_search.view.*
 import org.jetbrains.anko.support.v4.toast
 
 class MessageFragment : Fragment() {
